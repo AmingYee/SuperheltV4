@@ -5,7 +5,8 @@ import com.example.superheltv4v3.dto.HeronameCreationyearDTO;
 import com.example.superheltv4v3.dto.HeronamePowerDTO;
 import com.example.superheltv4v3.dto.HeronamePowernrDTO;
 import com.example.superheltv4v3.repositories.IRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,10 @@ import java.util.List;
 @RequestMapping("superhelte")
 public class SuperheroController {
     IRepository repository;
+
+    public SuperheroController(ApplicationContext context, @Value("${superhero.repository.impl}") String impl){
+        repository = (IRepository) context.getBean(impl);
+    }
     @GetMapping("/test")
     public ResponseEntity<String> welcome(){
     return new ResponseEntity<>("Hello World", HttpStatus.OK);
